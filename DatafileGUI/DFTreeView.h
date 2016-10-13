@@ -18,7 +18,6 @@ using namespace System::Windows::Forms;
 using namespace System::Data;
 using namespace System::Drawing;
 
-using namespace SCF;
 using namespace SCFBase;
 using namespace SCFDatafileIO;
 
@@ -235,8 +234,8 @@ namespace DatafileGUI {
 	public: event DatafileChangedEventHandler^    DatafileChanged; 
 	public: event DatafileChangedCWDEventHandler^ DatafileChangedCWD; 
 
-	private: System::Void RaiseDatafileChanged()    { if (&DFTreeView::DatafileChanged    != nullptr) { DatafileChanged   (this, gcnew EventArgs()); } }
-	private: System::Void RaiseDatafileChangedCWD() { if (&DFTreeView::DatafileChangedCWD != nullptr) { DatafileChangedCWD(this, gcnew EventArgs()); } }
+	private: System::Void RaiseDatafileChanged()    { DatafileChanged   (this, gcnew EventArgs()); }
+	private: System::Void RaiseDatafileChangedCWD() { DatafileChangedCWD(this, gcnew EventArgs()); }
 
 	public: System::Void datafileSet(void* pDatafile) {
 
@@ -431,7 +430,7 @@ namespace DatafileGUI {
 						 CFile File(csFilePath);
 
 						 CDFFile DFFile(*m_pDatafile, DFDir.PathFull() + File.NameFull());
-						 DFFile.Create(File);
+						 DFFile.Create(File, TRUE);
 					 }
 					 RaiseDatafileChanged();
 				 }
@@ -482,7 +481,7 @@ namespace DatafileGUI {
 						 CFile File(rDirectory.PathFull() + Files[i]);
 
 						 CDFFile DFFile(*m_pDatafile, DFDir.PathFull() + Files[i]);
-						 DFFile.Create(File);
+						 DFFile.Create(File, TRUE);
 					 }
 					 Files.AllDelete();
 
